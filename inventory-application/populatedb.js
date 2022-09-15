@@ -30,7 +30,7 @@ var clothestype = []
 var designer = []
 
 //Functions for clothes
-function clothesCreate(name, designer, rating, stock, category, price){
+function clothesCreate(name, designer, rating, stock, category, price, cb){
   var clothesdetail = {
     name: name,
     designer: designer,
@@ -56,7 +56,7 @@ function clothesCreate(name, designer, rating, stock, category, price){
 
 
 //Function for clothes type
-function clothestypeCreate(category, description){
+function clothestypeCreate(category, description,cb){
   var clothestypedetail = {
     category: category, 
     description: description
@@ -72,16 +72,18 @@ function clothestypeCreate(category, description){
 
     console.log('New clothes type' + clothestypeInstance);
     clothestype.push(clothestypeInstance);
+    cb(null, clothestypeInstance);
   })
 
 }
 
 //Function for designeer
-function designerCreate(name, founding_date, summary){
+// 
+function designerCreate(name, founding_date, summary,cb){
   var designerdetail = {
     name: name,
-    founding_date: founding_date,
     summary:summary,
+    date: founding_date,
   }
 
   var designerInstance = new Designer(designerdetail)
@@ -94,6 +96,7 @@ function designerCreate(name, founding_date, summary){
 
     console.log('New designer' + designerInstance);
     designer.push(designerInstance);
+    cb(null, designerInstance);
   })
 
 }
@@ -102,69 +105,72 @@ function designerCreate(name, founding_date, summary){
 //Using the functions abovce to ACTUALLY CREATE test data
 
 //Create template clothes
+// function clothesCreate(name, designer, rating, stock, category, price){
 function createClothes(cb){
   async.series([
     function(callback){
-
+      clothesCreate("test1", "test1", 5, 5, "fashion", 50, callback);
     },
     function(callback){
-
+      clothesCreate("test1", "test1", 5, 5, "fashion", 50, callback);
     },
-    function(callback){
-
-    },
-    function(callback){
-
-    },
-    function(callback){
-
-    },
+    // function(callback){
+    //   clothesCreate("test1", "test1", 5, 5, "fashion", 50, callback);
+    // },
+    // function(callback){
+    //   clothesCreate("test1", "test1", 5, 5, "fashion", 50, callback);
+    // },
+    // function(callback){
+    //   clothesCreate("test1", "test1", 5, 5, "fashion", 50, callback);
+    // },
   ],
   
   cb)
 }
 
 //Create template clothes sections
+// function clothestypeCreate(category, description){
 function createClothesType(cb){
   async.series([
     function(callback){
-
+      clothestypeCreate("Test2", "test of create clothes function", callback);
     },
     function(callback){
-
+      clothestypeCreate("Test2", "test of create clothes function", callback);
     },
-    function(callback){
+    // function(callback){
 
-    },
-    function(callback){
+    // },
+    // function(callback){
 
-    },
-    function(callback){
+    // },
+    // function(callback){
 
-    },
+    // },
   ],
   
   cb)
 }
 
 //Create template designers
+//function designerCreate(name, founding_date, summary){
 function createDesigner(cb){
   async.series([
     function(callback){
-
+      designerCreate("test designer", "01-01-01", "designer makes clothes", callback);
     },
     function(callback){
-
+      designerCreate("test designer", "01-01-01", "designer makes clothes", callback);
     },
-    function(callback){
+    // function(callback){
 
-    },
-    function(callback){
+    // },
+    // function(callback){
 
-    },
-    function(callback){
+    // },
+    // function(callback){
 
-    },
+    // },
   ],
   
   cb)

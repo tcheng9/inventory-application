@@ -8,7 +8,7 @@ const ClothesSchema = new mongoose.Schema(
         rating: {type: Number},
         stock: {type: Number},
         category: {type: String},
-        price: {type: Decimal128}
+        price: {type: Number}
 
     }
 )
