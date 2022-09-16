@@ -109,20 +109,17 @@ function designerCreate(name, founding_date, summary,cb){
 function createClothes(cb){
   async.series([
     function(callback){
-      clothesCreate("test1", "test1", 5, 5, "fashion", 50, callback);
+      clothesCreate("Blue shirt", "Jcrew", 4, 10, "shirt", 20, callback);
     },
     function(callback){
-      clothesCreate("test1", "test1", 5, 5, "fashion", 50, callback);
+      clothesCreate("Red Shirt", "Nordstrom Rack", 3, 5, "shirt", 30, callback);
     },
-    // function(callback){
-    //   clothesCreate("test1", "test1", 5, 5, "fashion", 50, callback);
-    // },
-    // function(callback){
-    //   clothesCreate("test1", "test1", 5, 5, "fashion", 50, callback);
-    // },
-    // function(callback){
-    //   clothesCreate("test1", "test1", 5, 5, "fashion", 50, callback);
-    // },
+    function(callback){
+      clothesCreate("Blue jeans", "Uniqlo", 4, 8, "pants", 60, callback);
+    },
+    function(callback){
+      clothesCreate("Black Parka", "Eddie Bauer", 5, 3, "Outerwear", 150, callback);
+    },
   ],
   
   cb)
@@ -133,14 +130,14 @@ function createClothes(cb){
 function createClothesType(cb){
   async.series([
     function(callback){
-      clothestypeCreate("Test2", "test of create clothes function", callback);
+      clothestypeCreate("Shirt", "it's a shirt...", callback);
     },
     function(callback){
-      clothestypeCreate("Test2", "test of create clothes function", callback);
+      clothestypeCreate("Jeans", "Jeans are pants", callback);
     },
-    // function(callback){
-
-    // },
+    function(callback){
+      clothestypeCreate("Outerwear", "Clothes that you wear over shirts and sweaters", callback)
+    },
     // function(callback){
 
     // },
@@ -157,17 +154,17 @@ function createClothesType(cb){
 function createDesigner(cb){
   async.series([
     function(callback){
-      designerCreate("test designer", "01-01-01", "designer makes clothes", callback);
+      designerCreate("Eddie Bauer", "01-01-10", "designer makes clothes", callback);
     },
     function(callback){
-      designerCreate("test designer", "01-01-01", "designer makes clothes", callback);
+      designerCreate("Nordstrom Rack", "07-07-77", "designer makes clothes", callback);
     },
-    // function(callback){
-
-    // },
-    // function(callback){
-
-    // },
+    function(callback){
+      designerCreate("J Crew", "09-09-90", "designer makes clothes", callback);
+    },
+    function(callback){
+      designerCreate("Uniqlo", "08-08-88", "designer makes clothes", callback);
+    },
     // function(callback){
 
     // },
