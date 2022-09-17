@@ -1,6 +1,6 @@
-const clothes = require('../models/clothes');
-const clothes_type = require('../models/clothes-type');
-const designer = require('../models/designer');
+const Clothes = require('../models/clothes');
+const Clothes_type = require('../models/clothes-type');
+const Designer = require('../models/designer');
 const async = require('async');
 
 
@@ -10,7 +10,15 @@ exports.index = (req, res) => {
 
 //Display list of all clothing
 exports.clothes_list = function(req, res, next){
-    res.send('NOT IMPLEMENTED: clothes list');
+    Clothes.find({}, "name designer")
+        .exec(function (err, list_clothes){
+            if (err) {
+                return next(err);
+            } else {
+                // Successful so render
+                res.render("clothes_list", {title: "Clothes List", clothes_list: list_clothes})
+            }
+        })
 }
 
 //Display details about a specific article of clothing

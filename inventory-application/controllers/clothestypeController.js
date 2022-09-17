@@ -4,9 +4,7 @@ const designer = require('../models/designer');
 const async = require('async');
 
 
-exports.index = (req, res) => {
 
-}
 
 //Display list of all clothes_type
 exports.clothes_type_list = function(req, res, next){
