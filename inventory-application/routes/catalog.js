@@ -58,7 +58,7 @@ router.get('/clothes_type/:id/update', clothes_type_controller.clothes_type_upda
 router.post('/clothes_type/:id/update', clothes_type_controller.clothes_type_update_post);
 
 // GET request for one Author.
-router.get('/clothes_type/:id', clothes_type_controller.clothes_type_detail);
+router.get('/clothes_type/:id', clothes_type_controller.clothes_type_details);
 
 // GET clothes_type for list of all Authors.
 router.get('/clothes_type', clothes_type_controller.clothes_type_list);
@@ -85,7 +85,7 @@ router.get('/designer/:id/update', designer_controller.designer_update_get);
 router.post('/designer/:id/update', designer_controller.designer_update_post);
 
 // GET request for one Genre.
-router.get('/designer/:id', designer_controller.designer_detail);
+router.get('/designer/:id', designer_controller.designer_details);
 
 // GET request for list of all Genre.
 router.get('/designer', designer_controller.designer_list);

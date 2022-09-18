@@ -5,7 +5,17 @@ const async = require('async');
 
 
 exports.index = (req, res) => {
-
+    async.parallel(
+        {}, 
+        function (err, results) {
+            res.render("index", {
+                title: 'Local Catalog Home',
+                error: err,
+                data:results,
+            })
+        }
+    )
+    
 }
 
 //Display list of all clothing
