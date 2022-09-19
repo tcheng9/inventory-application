@@ -1,6 +1,6 @@
-const clothes = require('../models/clothes');
-const clothes_type = require('../models/clothes-type');
-const designer = require('../models/designer');
+const Clothes = require('../models/clothes');
+const Clothes_type = require('../models/clothes-type');
+const Designer = require('../models/designer');
 const async = require('async');
 
 
@@ -8,8 +8,15 @@ const async = require('async');
 
 //Display list of all designer
 exports.designer_list = function(req, res, next){
-    res.send('NOT IMPLEMENTED: designer list');
-}
+    Designer.find({}, "name date summary")
+        .exec(function (err, list_designer) {
+            if (err) {
+                return next(err);
+            } else {
+                res.render("designer_list", {title: "Designer List", designer_list: list_designer})
+            }
+        })
+    }
 
 //Display details about a specific article of designer
 exports.designer_details = (req, res, next) => {

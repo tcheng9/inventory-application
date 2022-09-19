@@ -20,7 +20,7 @@ exports.index = (req, res) => {
 
 //Display list of all clothing
 exports.clothes_list = function(req, res, next){
-    Clothes.find({}, "name designer")
+    Clothes.find({}, "name designer rating stock category price")
         .exec(function (err, list_clothes){
             if (err) {
                 return next(err);

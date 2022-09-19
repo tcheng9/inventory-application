@@ -1,6 +1,6 @@
-const clothes = require('../models/clothes');
-const clothes_type = require('../models/clothes-type');
-const designer = require('../models/designer');
+const Clothes = require('../models/clothes');
+const Clothes_type = require('../models/clothes-type');
+const Designer = require('../models/designer');
 const async = require('async');
 
 
@@ -8,7 +8,15 @@ const async = require('async');
 
 //Display list of all clothes_type
 exports.clothes_type_list = function(req, res, next){
-    res.send('NOT IMPLEMENTED: clothes_type list');
+    Clothes_type.find({}, 'category description')
+        .exec(function (err, list_clothes_type) {
+        if (err) {
+            return next(err);
+        } else {
+            res.render("clothes_type_list", {title: "Clothes Type List", clothes_type_list: list_clothes_type})
+        }
+    
+    })
 }
 
 //Display details about a specific article of clothes_type

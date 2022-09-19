@@ -2,6 +2,35 @@
     TEST VIEW of clothes list
 </div>>
 
+<ul> 
+    <% for(const clothes of clothes_list){ %>
+        <li>
+          <%= clothes.name %> 
+        </li>
+
+        <li>
+            <%= clothes.designer %> 
+        </li>
+
+        <li>
+            <%= clothes.rating %> 
+        </li>
+
+        <li>
+            <%= clothes.stock %> 
+        </li>
+
+        <li>
+            <%= clothes.category %> 
+        </li>
+
+        <li>
+            <%= clothes.price %> 
+        </li>
+
+    <% } %>
+    <p> BREAKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKUH</p>
+</ul>
 <!-- 
 This file is receiving an object called (clothes_list)
 
