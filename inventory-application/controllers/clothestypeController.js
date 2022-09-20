@@ -26,7 +26,7 @@ exports.clothes_type_details = (req, res, next) => {
 
 //Display clothes_type create form on GET
 exports.clothes_type_create_get = (req, res, next) => {
-    res.send('NOT IMPLEMENTED: clothes_type create get');
+    res.render("clothes_type_form", {title: "Create Clothes Type"})
 }
 
 //Handle clothes_type create on POST

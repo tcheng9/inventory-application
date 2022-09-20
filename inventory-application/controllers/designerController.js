@@ -25,7 +25,7 @@ exports.designer_details = (req, res, next) => {
 
 //Display designer create form on GET
 exports.designer_create_get = (req, res, next) => {
-    res.send('NOT IMPLEMENTED: designer create get');
+    res.render("designer_form", {title: "Create Designer"})
 }
 
 //Handle designer create on POST

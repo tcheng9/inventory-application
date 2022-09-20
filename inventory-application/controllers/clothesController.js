@@ -38,9 +38,8 @@ exports.clothes_details = (req, res, next) => {
 
 //Display clothes create form on GET
 exports.clothes_create_get = (req, res, next) => {
-    res.send('NOT IMPLEMENTED: clothes create get');
+   res.render("clothes_form", {title: "Create Clothes"});
 }
-
 //Handle clothes create on POST
 exports.clothes_create_post = (req, res) => {
     res.send('NOT IMPLEMENTED: clothes delete GET');
