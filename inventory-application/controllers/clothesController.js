@@ -3,6 +3,7 @@ const Clothes_type = require('../models/clothes-type');
 const Designer = require('../models/designer');
 const async = require('async');
 const { body, validationResult } = require("express-validator");
+const clothes = require('../models/clothes');
 
 
 exports.index = (req, res) => {
@@ -33,34 +34,33 @@ exports.clothes_list = function(req, res, next){
 }
 
 //Display details about a specific article of clothing
+
 exports.clothes_details = (req, res, next) => {
+    
     async.parallel(
         {
-            clothes: function (callback) {
+            item: function (callback) {
                 Clothes.findById(req.params.id).exec(callback);
             },
-            clothes_type: function(callback) {
-                Clothes_type.find({clothes: req.params.id}, "clothes type explained").exec(callback);
-            },
         },
-
         function (err, results){
             if (err){
+                // res.render('error here1')
                 return next(err);
             }
 
-            if (results.clothes == null){
-                var err = new Error("Clothes not found");
+            if (results.item == null){
+                // console.log(str(results))
+                const err = new Error ("Clothes not found");
                 err.status = 404;
                 return next(err);
             }
-
-            //Successful so render
-            res.render("clothes_detail", {
-                title: "Clothes Detail",
-                clothes: results.clothes,
-                clothes_type: results.clothes_type,
+            
+            res.render('clothes_detail', {
+                title: 'Clothes detail', 
+                clothes: results.item
             });
+
         }
     );
 };
