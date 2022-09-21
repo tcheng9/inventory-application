@@ -43,11 +43,11 @@ exports.clothes_create_get = (req, res, next) => {
 }
 //Handle clothes create on POST
 exports.clothes_create_post = [ 
-    body('name', 'Name cannot be empty')
+    body('clothes_name', 'Name cannot be empty')
         .trim()
         .isLength({min:1})
         .escape(),
-    body('designer', 'Designer cannot be empty')
+    body('designer_name', 'Designer cannot be empty')
         .trim()
         .isLength({min:1})
         .escape(),
@@ -59,7 +59,7 @@ exports.clothes_create_post = [
         .trim()
         .isLength({min:1})
         .escape(),
-    body('category', 'Category cannot be empty')
+    body('clothes_type_name', 'Category cannot be empty')
         .trim()
         .isLength({min:1})
         .escape(),
@@ -71,23 +71,26 @@ exports.clothes_create_post = [
             const errors = validationResult(req);
     
             const clothes = new Clothes({
-                name: req.body.name,
-                designer: req.body.designer,
+                name: req.body.clothes_name,
+                designer: req.body.designer_name,
                 rating: req.body.rating,
-                stock: req.body.category,
-                category: req.body.category,
+                stock: req.body.stock,
+                category: req.body.clothes_type_name,
                 price: req.body.price,
             });
 
             if (!errors.isEmpty()){    
+                
                 res.render('clothes_form', {
                     title: 'New Clothes',
                     clothes,
                     errors: errors.array(),
+                    
                 });
             } else {
-                category.save((err) => {
+                clothes.save((err) => {
                     if (err) return next(err);
+                    res.redirect('/');
                 });
         
             }
