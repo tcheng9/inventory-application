@@ -2,6 +2,7 @@ const Clothes = require('../models/clothes');
 const Clothes_type = require('../models/clothes-type');
 const Designer = require('../models/designer');
 const async = require('async');
+const { body, validationResult } = require("express-validator");
 
 
 exports.index = (req, res) => {
@@ -41,9 +42,59 @@ exports.clothes_create_get = (req, res, next) => {
    res.render("clothes_form", {title: "Create Clothes"});
 }
 //Handle clothes create on POST
-exports.clothes_create_post = (req, res) => {
-    res.send('NOT IMPLEMENTED: clothes delete GET');
-}
+exports.clothes_create_post = [ 
+    body('name', 'Name cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    body('designer', 'Designer cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    body('rating', 'rating cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    body('stock', 'Stock cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    body('category', 'Category cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    body('price', 'Price cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+        (req, res,next) => {
+            const errors = validationResult(req);
+    
+            const clothes = new Clothes({
+                name: req.body.name,
+                designer: req.body.designer,
+                rating: req.body.rating,
+                stock: req.body.category,
+                category: req.body.category,
+                price: req.body.price,
+            });
+
+            if (!errors.isEmpty()){    
+                res.render('clothes_form', {
+                    title: 'New Clothes',
+                    clothes,
+                    errors: errors.array(),
+                });
+            } else {
+                category.save((err) => {
+                    if (err) return next(err);
+                });
+        
+            }
+         }
+    
+    ]
+
 
 
 //Display clothes delete form on GET

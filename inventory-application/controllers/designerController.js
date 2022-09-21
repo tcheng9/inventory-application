@@ -3,7 +3,7 @@ const Clothes_type = require('../models/clothes-type');
 const Designer = require('../models/designer');
 const async = require('async');
 
-
+const { body, validationResult } = require("express-validator");
 
 
 //Display list of all designer
