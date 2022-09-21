@@ -30,9 +30,38 @@ exports.clothes_type_create_get = (req, res, next) => {
 }
 
 //Handle clothes_type create on POST
-exports.clothes_type_create_post = (req, res) => {
-    res.send('NOT IMPLEMENTED: clothes_type delete GET');
-}
+exports.clothes_type_create_post = [
+    body('category_name', 'Name cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    body('description', 'description cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    (req,res,next) => {
+        const errors = validationResult(req);
+
+        const clothes_type = new Clothes_type({
+            category: req.body.category_name,
+            description: req.body.description
+        });
+        
+        if (!errors.isEmpty()){
+            res.render('clothes_type_form', {
+                title: 'New Clothes Type',
+                clothes_type,
+                errors: errors.array(),
+            });
+        } else {
+            clothes_type.save((err) => {
+                if(err) return next(err);
+                res.redirect('/');
+                
+            })
+        }
+    }
+]
 
 //Display clothes_type delete form on GET
 exports.clothes_type_delete_get = (req, res) => {

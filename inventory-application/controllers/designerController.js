@@ -29,10 +29,44 @@ exports.designer_create_get = (req, res, next) => {
 }
 
 //Handle designer create on POST
-exports.designer_create_post = (req, res) => {
-    res.send('NOT IMPLEMENTED: designer delete GET');
-}
+exports.designer_create_post = [
+    body('designer_name', 'designer_name cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    body('founded_date', 'founded_date cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    body('description', 'description cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    (req,res,next) => {
+        const errors = validationResult(req);
 
+        const designer = new Designer({
+            name: req.body.designer_name,
+            date: req.body.founded_date,
+            summary: req.body.description
+        });
+        
+        if (!errors.isEmpty()){
+            res.render(errors);
+            res.render('clothes_type_form', {
+                title: 'New Clothes Type',
+                designer,
+                errors: errors.array(),
+            });
+        } else {
+            designer.save((err) => {
+                if(err) return next(err);
+                res.redirect('/');
+                
+            })
+        }
+    }
+]
 //Display designer delete form on GET
 exports.designer_delete_get = (req, res) => {
     res.send('NOT IMPLEMENTED: designer delete GET');
