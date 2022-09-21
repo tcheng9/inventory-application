@@ -13,4 +13,9 @@ const ClothesSchema = new Schema(
     }
 )
 
+//Virtual for this clothes url
+ClothesSchema.virtual("url").get(function () {
+    return "/catalog/clothes/" + this._id;
+  });
+
 module.exports = mongoose.model('Clothes', ClothesSchema);

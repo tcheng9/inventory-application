@@ -34,8 +34,36 @@ exports.clothes_list = function(req, res, next){
 
 //Display details about a specific article of clothing
 exports.clothes_details = (req, res, next) => {
-    res.send('NOT IMPLEMENTED: clothes details');
-}
+    async.parallel(
+        {
+            clothes: function (callback) {
+                Clothes.findById(req.params.id).exec(callback);
+            },
+            clothes_type: function(callback) {
+                Clothes_type.find({clothes: req.params.id}, "clothes type explained").exec(callback);
+            },
+        },
+
+        function (err, results){
+            if (err){
+                return next(err);
+            }
+
+            if (results.clothes == null){
+                var err = new Error("Clothes not found");
+                err.status = 404;
+                return next(err);
+            }
+
+            //Successful so render
+            res.render("clothes_detail", {
+                title: "Clothes Detail",
+                clothes: results.clothes,
+                clothes_type: results.clothes_type,
+            });
+        }
+    );
+};
 
 //Display clothes create form on GET
 exports.clothes_create_get = (req, res, next) => {

@@ -10,5 +10,13 @@ const DesignerSchema = new Schema(
     }
 )
 
+//Virtual url for designer
+
+DesignerSchema.virtual("url").get(function() {
+    return '/catalog/designer/'+ this._id;
+})
+
+
+
 module.exports = mongoose.model('Designer', DesignerSchema);
 
