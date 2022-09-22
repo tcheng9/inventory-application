@@ -20,7 +20,30 @@ exports.designer_list = function(req, res, next){
 
 //Display details about a specific article of designer
 exports.designer_details = (req, res, next) => {
-    res.send('NOT IMPLEMENTED: designer details');
+    async.parallel(
+        {
+            item: function(callback){
+                Designer.findById(req.params.id).exec(callback);
+            },
+        },
+            function (err, results){
+                if (err){
+                    return next(err);
+                }
+
+                if (results.item == null) {
+                    const err = new Error("Designer not found");
+                    err.status = 404;
+                    return next(err);
+                }
+
+                res.render('designer_detail', {
+                    title: 'Designer detail', 
+                    designer: results.item
+                })
+            }
+        
+    )
 }
 
 //Display designer create form on GET

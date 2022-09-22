@@ -36,7 +36,7 @@ exports.clothes_list = function(req, res, next){
 //Display details about a specific article of clothing
 
 exports.clothes_details = (req, res, next) => {
-    
+   
     async.parallel(
         {
             item: function (callback) {
@@ -50,7 +50,7 @@ exports.clothes_details = (req, res, next) => {
             }
 
             if (results.item == null){
-                // console.log(str(results))
+                // res.render('error here1')
                 const err = new Error ("Clothes not found");
                 err.status = 404;
                 return next(err);

@@ -21,7 +21,30 @@ exports.clothes_type_list = function(req, res, next){
 
 //Display details about a specific article of clothes_type
 exports.clothes_type_details = (req, res, next) => {
-    res.send('NOT IMPLEMENTED: clothes_type details');
+    async.parallel(
+        {
+            item: function(callback){
+                Clothes_type.findById(req.params.id).exec(callback);
+            }
+        },
+
+        function (err, results) {
+            if (err){
+                return next(err);
+            }
+
+            if (results.item == null) {
+                const err = new Error('Clothes type not found');
+                err.status = 404;
+                return next(err);
+            }
+
+            res.render('clothes_type_detail', {
+                title:'Clothes type detail',
+                clothes_type: results.item,
+           });
+        }
+    );
 }
 
 //Display clothes_type create form on GET

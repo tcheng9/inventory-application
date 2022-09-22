@@ -2,12 +2,26 @@
     TEST VIEW of clothes detail
 </div>>
 
-<ul>
-    
-    <% for(const i of clothes) { %>
-        <li>
-            <%= i.designer %>
-        </li>
+<p>
+   <%= clothes.name %>
+</p>
+   
+<p>
+    <%= clothes.designer %>
+ </p>
 
-    <$% } %>
-</ul>
+ <p>
+    <%= clothes.rating %>
+ </p>
+
+ <p>
+    <%= clothes.stock %>
+ </p>
+
+ <p>
+    <%= clothes.category %>
+ </p>
+
+ <p>
+    <%= clothes.price %>
+ </p>
