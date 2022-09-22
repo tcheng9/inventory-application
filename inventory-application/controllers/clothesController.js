@@ -129,8 +129,25 @@ exports.clothes_create_post = [
 
 
 //Display clothes delete form on GET
-exports.clothes_delete_get = (req, res) => {
-    res.send('NOT IMPLEMENTED: clothes delete GET');
+exports.clothes_delete_get = (req, res, next) => {
+    const id = req.params;
+
+    async.parallel(
+        {
+            item: function(callback){
+                Clothes.findById(id).exec(callback);
+            },
+        },
+        function(err, results){
+            if(err) return next(err);
+
+            res.render('clothes_delete', {
+                title: 'Remove Clothes',
+                clothes: results.item,
+            });
+        }
+
+    )
 }
 
 //Display clothes delete form on POST
