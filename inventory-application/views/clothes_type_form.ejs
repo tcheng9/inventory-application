@@ -4,10 +4,10 @@
 
 <form method="POST" action = "">
     <label for = "category_name"> Category Name </label><br>
-    <input type = "text" id = "category_name" name = "category_name"> <br>
+    <input type = "text" id = "category_name" name = "category_name"  value="<%= clothes_type !== 'undefined' ? clothes_type.category : ''%>"> <br>
     
     <label for = "description"> Describe the category </label><br>
-    <input type = "text" id = "description" name = "description"> <br>
+    <input type = "text" id = "description" name = "description"  value="<%= clothes_type !== 'undefined' ? clothes_type.description : ''%>"> <br>
 
     <input type = "submit" value = "Submit">
 

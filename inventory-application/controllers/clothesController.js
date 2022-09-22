@@ -139,13 +139,103 @@ exports.clothes_delete_post = (req, res) => {
 }
 
 //Display clothes update form on GET
-exports.clothes_update_get = (req, res) => {
-    res.send('NOT IMPLEMENTED: clothes update get');
+exports.clothes_update_get = (req, res, next) => {
+    // const id = req.params.id;;
+
+    // const clothes= Clothes.findById(id);
+    // res.render('clothes_form', {title: 'Update Brand', update: true, clothes});
+
+    async.parallel(
+        {
+            item: function (callback) {
+                Clothes.findById(req.params.id).exec(callback);
+            },
+        },
+        function (err, results){
+            if (err){
+                // res.render('error here1')
+                return next(err);
+            }
+
+            if (results.item == null){
+                // res.render('error here1')
+                const err = new Error ("Clothes not found");
+                err.status = 404;
+                return next(err);
+            }
+            
+            res.render('clothes_form', {
+                title: 'Clothes detail', 
+                clothes: results.item
+            });
+
+        }
+    );
+
 }
 
 
 //Handle clothes update form on POST
-exports.clothes_update_post = (req, res) => {
-    res.send('NOT IMPLEMENTED: clothes update post');
-}
+exports.clothes_update_post = [
+    body('clothes_name', 'Name cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    body('designer_name', 'Designer cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    body('rating', 'rating cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    body('stock', 'Stock cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    body('clothes_type_name', 'Category cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    body('price', 'Price cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    (req, res, next) => {
+        const errors = validationResult(req);
+
+        const clothes = new Clothes({
+            name: req.body.clothes_name,
+            designer: req.body.designer_name,
+            rating: req.body.rating,
+            stock: req.body.stock,
+            category: req.body.clothes_type_name,
+            price: req.body.price,   
+            _id: req.params.id,
+        });
+
+      
+        if (!errors.isEmpty()){
+            res.render('clothes_form', {
+                title: 'Update clothes',
+                clothes,
+                errors: errors.array(),
+                update: true,
+                error: 'Incorrect password',
+            });
+        } else {
+            Clothes.findByIdAndUpdate(
+                req.params.id,
+                clothes,
+                {},
+                function (err, theclothes) {
+                  if (err){
+                    return next(err);
+                  } 
+                  res.redirect(theclothes.url);
+                }
+              );
+         }
+    }
+];
 

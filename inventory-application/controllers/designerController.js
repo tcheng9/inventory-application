@@ -101,13 +101,82 @@ exports.designer_delete_post = (req, res) => {
 }
 
 //Display designer update form on GET
-exports.designer_update_get = (req, res) => {
-    res.send('NOT IMPLEMENTED: designerupdate get');
+exports.designer_update_get = (req, res, next) => {
+    async.parallel(
+        {
+            item: function (callback) {
+                Designer.findById(req.params.id).exec(callback);
+            },
+        },
+        function (err, results){
+            if (err){
+                // res.render('error here1')
+                return next(err);
+            }
+
+            if (results.item == null){
+                // res.render('error here1')
+                const err = new Error ("Designer not found");
+                err.status = 404;
+                return next(err);
+            }
+            
+            res.render('designer_form', {
+                title: 'Designer detail', 
+                designer: results.item
+            });
+
+        }
+    );
 }
 
 
 //Handle designer update form on POST
-exports.designer_update_post = (req, res) => {
-    res.send('NOT IMPLEMENTED: designerupdate post');
-}
+exports.designer_update_post = [
+    body('designer_name', 'designer_name cannot be empty')
+    .trim()
+    .isLength({min:1})
+    .escape(),
+    body('founded_date', 'founded_date cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    body('description', 'description cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    (req, res,next) => {
+        const errors = validationResult(req);
 
+        const designer = new Designer({
+            name: req.body.designer_name,
+            date: req.body.founded_date,
+            summary: req.body.description,
+            _id: req.params.id,
+        });
+
+        if (!errors.isEmpty()){
+            res.render('designer_form', {
+                title: 'Update designer',
+                designer,
+                errors: errors.array(),
+                update: true,
+                error: 'Incorrect pasword',
+            });
+        } else {
+            Designer.findByIdAndUpdate(
+                req.params.id,
+                designer,
+                {},
+                function (err, theDesigner){
+                    if(err){
+                        return next(err);
+                    } 
+                    res.redirect(theDesigner.url);
+                }
+            )
+        }
+
+
+    }
+]

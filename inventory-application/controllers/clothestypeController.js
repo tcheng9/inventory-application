@@ -97,13 +97,70 @@ exports.clothes_type_delete_post = (req, res) => {
 }
 
 //Display clothes_type update form on GET
-exports.clothes_type_update_get = (req, res) => {
-    res.send('NOT IMPLEMENTED: clothes_type update get');
+exports.clothes_type_update_get = (req, res, next) => {
+    async.parallel(
+        {
+            item: function (callback) {
+                Clothes_type.findById(req.params.id).exec(callback);
+            },
+        },
+        function(err, results) {
+            if(err){
+                return next(err);
+            } 
+
+            if (results.item == null) {
+                const err = new Error('Clothes type not found');
+                err.status = 404;
+                return next(err);
+            }
+
+            res.render('clothes_type_form', {
+                title: 'Clothes Type Form',
+                clothes_type: results.item
+            });
+        }
+    );
 }
 
 
 //Handle clothes_type update form on POST
-exports.clothes_type_update_post = (req, res) => {
-    res.send('NOT IMPLEMENTED: clothes_type update post');
-}
+exports.clothes_type_update_post = [
+    body('category_name', 'Category cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    body('description', 'Description cannot be empty')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    (req, res, next) => {
+        const errors = validationResult(req);
 
+        const clothes_type = new Clothes_type({
+            category: req.body.category_name,
+            description: req.body.description,
+            _id: req.params.id
+        });
+
+        if(!errors.isEmpty()){
+            res.render('clothes_type_form', {
+                title: 'Update clothes type',
+                clothes_type,
+                errors: errors.array(),
+                update: true,
+                error: "inCorrect clothes type",
+            });
+            } else {
+                Clothes_type.findByIdAndUpdate(
+                    req.params.id,
+                    clothes_type,
+                    {},
+                    function(err, theclothestype){
+                        if (err) return next(err);
+                        res.redirect(theclothestype.url);
+                    }
+                )
+            }
+        }
+]
