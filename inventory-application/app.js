@@ -13,8 +13,12 @@ const mongoose = require('mongoose');
 
 //Set up default mongoose connection
 ////////////CHANGE THIS LINE TO BE MY MONGODB LINK//////////////////////////////////////////////////////////////////////////////////////////////////////////
-const mongoDB = 'mongodb+srv://tcheng789:mongo1@cluster0.tdzcrzq.mongodb.net/test'
+// const mongoDB = 'mongodb+srv://tcheng789:mongo1@cluster0.tdzcrzq.mongodb.net/test'
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//Setup for heroku
+const dev_db_url = "mongodb+srv://tcheng789:mongo1@cluster0-mbdj7.mongodb.net/local_library?retryWrites=true";
+const mongoDB = process.env.MONGODB_URI || dev_db_url;
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 
 //Get the default connection
