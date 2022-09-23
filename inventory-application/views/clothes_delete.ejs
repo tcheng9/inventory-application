@@ -2,12 +2,8 @@
     TEST VIEW of clothes delete
 </div>>
 
-<p> 
-    Delete <%= clothes.name %> ?
-</p>
-
-<form method = "POST" action = "%<= item.url%>/delete">
-    <input type = "hidden" name = "clothesid" value = "<%= clothes._id%> ">
+<form method = "POST" action = "">
+    <input type = "hidden" name = "clothesid" value = "<%= clothes._id%>">
     <button class = "btn-primary btn-delete"> Remove item </button>
 
 </form>

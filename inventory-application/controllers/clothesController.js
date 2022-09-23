@@ -141,6 +141,7 @@ exports.clothes_delete_get = (req, res, next) => {
             if(err) return next(err);
 
             if (results.item == null){
+                
                 res.redirect('/catalog/clothes/');
             }
 
@@ -157,32 +158,28 @@ exports.clothes_delete_get = (req, res, next) => {
 exports.clothes_delete_post = (req, res, next) => {
     async.parallel(
         {
-            item: function(callback){
-                Clothes.findById(req.body.clothesid).exec(callback);
-            }
+          item: function (callback) {
+            Clothes.findById(req.params.clothesid).exec(callback);
+          },
+          
         },
+        function (err, results) {
+          if (err) {
+            
+            return next(err);
+          }
 
-        function(err, results){
+          Clothes.findByIdAndRemove(req.body.clothesid, function deleteAuthor(err){
             if(err) return next(err);
 
-            Clothes.findByIdAndRemove(req.body.clothesid, function deleteAuthor(err) {
-                if(err){
-                    return next(err);
-                }
-
-                res.redirect('/catalog/clothes');
-            }
-
-            )
-            // if (results)
-            // res.render('brand_delete',{
-            //     title: 'remove brand',
-            //     clothes: results.item,
-            //     error: 'Incorrect something',
-            // });
-        }
-    )
-}
+            res.redirect("/catalog/clothes");
+          }
+          
+          
+          )}
+          );
+        };
+    
 
 //Display clothes update form on GET
 exports.clothes_update_get = (req, res, next) => {
