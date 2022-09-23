@@ -91,13 +91,54 @@ exports.designer_create_post = [
     }
 ]
 //Display designer delete form on GET
-exports.designer_delete_get = (req, res) => {
-    res.send('NOT IMPLEMENTED: designer delete GET');
+exports.designer_delete_get = (req, res, next) => {
+    async.parallel(
+        {
+            item: function(callback){
+                Designer.findById(req.params.id).exec(callback);
+            },
+        },
+        function(err, results){
+            if(err) return next(err);
+
+            if (results.item == null){
+                
+                res.redirect('/catalog/designer/');
+            }
+
+            res.render('designer_delete', {
+                title: 'Remove Designer',
+                designer: results.item,
+            });
+        }
+
+    )
 }
 
 //Display designer delete form on POST
-exports.designer_delete_post = (req, res) => {
-    res.send('NOT IMPLEMENTED: designer delete post');
+exports.designer_delete_post = (req, res, next) => {
+    async.parallel(
+        {
+          item: function (callback) {
+            Designer.findById(req.params.designerid).exec(callback);
+          },
+          
+        },
+        function (err, results) {
+          if (err) {
+            
+            return next(err);
+          }
+
+          Designer.findByIdAndRemove(req.body.designerid, function deleteDesigner(err){
+            if(err) return next(err);
+
+            res.redirect("/catalog/designer");
+          }
+          
+          
+          )}
+          );
 }
 
 //Display designer update form on GET

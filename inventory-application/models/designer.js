@@ -19,4 +19,3 @@ DesignerSchema.virtual("url").get(function() {
 
 
 module.exports = mongoose.model('Designer', DesignerSchema);
-
