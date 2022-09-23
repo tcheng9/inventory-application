@@ -88,8 +88,26 @@ exports.clothes_type_create_post = [
 
 //Display clothes_type delete form on GET
 exports.clothes_type_delete_get = (req, res) => {
-    res.send('NOT IMPLEMENTED: clothes_type delete GET');
+    async.parallel(
+        {
+            item: function(callback){
+                Clothes_type.findById(req.params.id).exec(callback);
+            },
+        },
+        function(err, results){
+            if(err) return next(err);
+
+            if (results.item == null){
+                res.redirect('/catalog/clothes_type/');
+            }
+
+            res.render('clothes_type_delete', {
+                title: 'Remove Clothes Type',
+                clothes_type: results.item,
+            });
+    });
 }
+
 
 //Display clothes_type delete form on POST
 exports.clothes_type_delete_post = (req, res) => {
